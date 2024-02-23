@@ -1,4 +1,4 @@
-# Typest履歴書テンプレート
+# Typst履歴書テンプレート
 [![PDF](https://img.shields.io/badge/Resume-PDF-blue)]
 
 ## これは何？
