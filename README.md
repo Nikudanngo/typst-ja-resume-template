@@ -1,9 +1,9 @@
-# typst-ja-resume-template
-
+# Typest履歴書テンプレート
 [![PDF](https://img.shields.io/badge/Resume-PDF-blue)]
 
 ## これは何？
 [Typst](https://typst.app/)で履歴書のテンプレートを作成しました。
+
 自由に改変、利用してください。
 何かの規約とかに則って作っているわけではないので、おかしな点があればご指摘ください！
 
