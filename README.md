@@ -1,5 +1,5 @@
 # Typst履歴書テンプレート
-[![PDF](https://img.shields.io/badge/Resume-PDF-blue)]
+![PDF](https://img.shields.io/badge/Resume-PDF-blue)
 
 ## これは何？
 [Typst](https://typst.app/)で履歴書のテンプレートを作成しました。
