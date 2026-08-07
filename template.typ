@@ -509,6 +509,7 @@
   資格: (),
   志望動機: [],
   本人希望: [],
+  クレジット: true,
   body,
 ) = {
   set text(font: ("Noto Serif JP",), size: systemFontSize)
@@ -600,11 +601,13 @@
       志望動機欄(志望動機),
       linebreak(),
       本人希望欄(本人希望),
-      place(
-        bottom + right,
-        dy: 10pt,
-        [Made with Typst],
-      ),
+      if クレジット {
+        place(
+          bottom + right,
+          dy: 10pt,
+          [Made with Typst],
+        )
+      },
     )
   ]
 }
