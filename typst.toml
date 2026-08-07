@@ -4,15 +4,15 @@ version = "0.1.0"
 entrypoint = "lib.typ"
 authors = ["Nikudanngo"]
 license = "MIT"
-description = "日本のJIS規格に準拠した履歴書をTypstで作成するテンプレート"
+description = "日本でよく使われるな形式の履歴書をTypstで作成するテンプレート"
 repository = "https://github.com/Nikudanngo/typst-ja-resume-template"
 categories = ["cv"]
 keywords = ["resume", "cv", "japanese", "japan", "履歴書", "jis"]
 exclude = [
-  "fonts/*",
+  "fonts/**",
   "image/testImage.png",
   "main.pdf",
-  ".vscode/*",
+  ".vscode/**",
 ]
 
 [template]
