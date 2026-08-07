@@ -2,6 +2,13 @@
 #let nameFontSize = 16pt
 #let inputFontSize = 10pt
 
+#let career-page1-rows = 14
+#let career-page2-rows = 5
+#let qualification-rows = 7
+#let career-page1-height = 12.6cm
+#let career-page2-height = 5cm
+#let qualification-height = 6.6cm
+
 #let addSpace(input) = {
   box(
     [#pad(left:1cm,[#input])],
@@ -33,7 +40,7 @@
           [#align(center,性読み)],
           [#align(start,名読み)]
         )
-      ] 
+      ]
     ),
     line(
       length: 100%,
@@ -61,7 +68,7 @@
             [
               #pad(y: 0.4cm,align(start + horizon,text(nameFontSize,名)))
             ]
-              
+
           )
         )
       ]
@@ -286,7 +293,7 @@
 }
 
 #let 職歴(年:"", 月:"",職歴:"") = {
-  set text(inputFontSize) 
+  set text(inputFontSize)
   grid(
     columns: (1.5cm,0.8cm,1fr),
     [
@@ -305,7 +312,7 @@
   )
 }
 
-#let 資格(年:"", 月:"",資格:"") = {
+#let 資格行(年:"", 月:"",資格:"") = {
   set text(inputFontSize)
   grid(
     columns: (1.5cm,0.8cm,1fr),
@@ -419,7 +426,7 @@
   )
 }
 
-#let 志望動機(children) = {
+#let 志望動機欄(children) = {
   stack(
     rect(
       stroke: (
@@ -440,7 +447,7 @@
   )
 }
 
-#let 本人希望(children) = {
+#let 本人希望欄(children) = {
   stack(
     rect(
       stroke: (
@@ -459,4 +466,145 @@
       ]
     )
   )
+}
+
+#let dict-get(d, key, default: "") = {
+  if type(d) == dictionary and key in d { d.at(key) } else { default }
+}
+
+#let build-career-entries(学歴一覧, 職歴一覧) = {
+  let rows = (学歴(),)
+  for entry in 学歴一覧 {
+    rows.push(学歴(
+      年: dict-get(entry, "年"),
+      月: dict-get(entry, "月"),
+      学歴: dict-get(entry, "内容"),
+    ))
+  }
+  rows.push(linebreak())
+  rows.push(職歴())
+  for entry in 職歴一覧 {
+    rows.push(職歴(
+      年: dict-get(entry, "年"),
+      月: dict-get(entry, "月"),
+      職歴: dict-get(entry, "内容"),
+    ))
+  }
+  rows.push(以上())
+  rows
+}
+
+#let 履歴書(
+  性読み: "",
+  名読み: "",
+  性: "",
+  名: "",
+  生年月日: "",
+  年齢: 0,
+  写真: "",
+  現住所: (:),
+  連絡先: (:),
+  学歴: (),
+  職歴: (),
+  資格: (),
+  志望動機: [],
+  本人希望: [],
+  body,
+) = {
+  set text(font: ("Noto Serif JP",), size: systemFontSize)
+  set page(paper: "jis-b5", margin: 1.5cm)
+
+  let career-entries = build-career-entries(学歴, 職歴)
+  let split-at = calc.min(career-page1-rows, career-entries.len())
+  let career-page1 = career-entries.slice(0, split-at)
+  let career-page2 = career-entries.slice(split-at)
+  let 資格一覧 = 資格
+
+  let title = text(tracking: 1em, size: 14pt, [履歴書])
+
+  [
+    = #title
+
+    #move(dy: -1cm,
+      stack(
+        align(bottom,
+          grid(
+            columns: (5fr, 2fr),
+            私(
+              性読み: 性読み,
+              名読み: 名読み,
+              性: 性,
+              名: 名,
+              生年月日: 生年月日,
+              年齢: 年齢,
+            ),
+            証明写真(写真: 写真),
+          ),
+        ),
+        アドレス(
+          住所ふりがな1: dict-get(現住所, "ふりがな"),
+          住所1: dict-get(現住所, "住所"),
+          郵便番号1: dict-get(現住所, "郵便番号"),
+          電話番号1: dict-get(現住所, "電話"),
+          Email1: dict-get(現住所, "email"),
+          住所ふりがな2: dict-get(連絡先, "ふりがな"),
+          住所2: dict-get(連絡先, "住所"),
+          郵便番号2: dict-get(連絡先, "郵便番号"),
+          電話番号2: dict-get(連絡先, "電話"),
+          Email2: dict-get(連絡先, "email"),
+        ),
+        linebreak(),
+        経歴(
+          mode: "学歴・職歴",
+          columns: career-page1-rows,
+          heightLength: career-page1-height,
+          grid(
+            gutter: 0.61cm,
+            ..career-page1,
+          ),
+        ),
+      ),
+    )
+
+    #pagebreak()
+
+    #stack(
+      経歴(
+        mode: "学歴・職歴",
+        columns: career-page2-rows,
+        heightLength: career-page2-height,
+        if career-page2.len() > 0 {
+          grid(
+            gutter: 0.61cm,
+            ..career-page2,
+          )
+        } else {
+          linebreak()
+        },
+      ),
+      linebreak(),
+      経歴(
+        mode: "資格",
+        columns: qualification-rows,
+        heightLength: qualification-height,
+        grid(
+          gutter: 0.61cm,
+          ..資格一覧.map(entry => 資格行(
+            年: dict-get(entry, "年"),
+            月: dict-get(entry, "月"),
+            資格: dict-get(entry, "内容"),
+          )),
+        ),
+      ),
+      linebreak(),
+      志望動機欄(志望動機),
+      linebreak(),
+      本人希望欄(本人希望),
+      place(
+        bottom + right,
+        dy: 10pt,
+        [Made with Typst],
+      ),
+    )
+  ]
 }

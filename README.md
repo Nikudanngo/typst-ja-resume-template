@@ -9,11 +9,29 @@
 
 ## 使い方
 
-1. `main.typ` の「私」「アドレス」「学歴」「職歴」などの引数を編集する
+1. `main.typ` を編集する（氏名・住所・学歴・職歴など）
 2. 同梱フォントを指定してコンパイルする（`--font-path` が必要です）
 
 ```bash
 typst compile --font-path fonts main.typ
+```
+
+`学歴` / `職歴` / `資格` は `(年, 月, 内容)` の配列で書きます。見出し行・空行・「以上」、1枚目/2枚目への分割は `template.typ` 側が行います。
+
+```typ
+#import "template.typ": 履歴書
+
+#show: 履歴書.with(
+  性: "履歴書",
+  名: "太郎",
+  学歴: (
+    (年: "平成30", 月: "4", 内容: "〇〇大学 入学"),
+  ),
+  職歴: (
+    (年: "令和6", 月: "4", 内容: "株式会社〇〇 入社"),
+  ),
+  // ...
+)
 ```
 
 `fonts/` には [Noto Serif JP](https://fonts.google.com/noto/specimen/Noto+Serif+JP) / [Noto Sans JP](https://fonts.google.com/noto/specimen/Noto+Sans+JP) を同梱しています（[SIL Open Font License 1.1](https://scripts.sil.org/OFL)。ライセンス全文は `fonts/OFL-*.txt`）。  
