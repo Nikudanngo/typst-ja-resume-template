@@ -334,7 +334,7 @@
 }
 
 // mode: "学歴・職歴" or "資格"
-#let 経歴(children,hegithLength: 12.6cm,columns: 0,mode:"") = {
+#let 経歴(children, heightLength: 12.6cm, columns: 0, mode: "") = {
   stack(
     box(
       stroke: (
@@ -343,7 +343,7 @@
         left: 1.5pt,
         right: 1.5pt
       ),
-      height: hegithLength,
+      height: heightLength,
       width: 100%,
       [
         #grid(

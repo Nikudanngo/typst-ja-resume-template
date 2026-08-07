@@ -1,21 +1,28 @@
 #import "template.typ": *
-#let title = [#text(tracking: 1em,size: 14pt,[履歴書])]
+#let title = [#text(tracking: 1em, size: 14pt, [履歴書])]
 
-#let fontSerif = ("Noto Serif", "Noto Serif CJK JP")
-#let fontSan = ("Noto Sans", "Noto Sans CJK JP")
+#let fontSerif = ("Noto Serif JP",)
+#let fontSan = ("Noto Sans JP",)
 
 #set text(font: fontSerif, size: systemFontSize)
-#set page(paper: "jis-b5",margin: 1.5cm)
+#set page(paper: "jis-b5", margin: 1.5cm)
+
+#let career_height = 12.6cm
+#let career_columns = 14
+
+#let qualification_height = 6.6cm
+#let qualification_columns = 7
 
 = #title
 // 使い方の説明。
 // "私"と"アドレス"など日本語名の関数の引数を変更してください。
+// フォントは `typst compile --font-path fonts main.typ` で同梱フォントを使えます。
 
-#move( dy: -1cm,
+#move(dy: -1cm,
   stack(
     align(bottom,
       grid(
-        columns: (5fr,2fr),
+        columns: (5fr, 2fr),
         私(
           性読み: "りれきしょ",
           名読み: "たろう",
@@ -43,7 +50,8 @@
     linebreak(),
     経歴(
       mode: "学歴・職歴",
-      columns: 14,
+      columns: career_columns,
+      heightLength: career_height,
       grid(
         gutter: 0.61cm,
         学歴(),
@@ -85,7 +93,7 @@
   経歴(
     mode: "学歴・職歴",
     columns: 5,
-    hegithLength: 5cm,
+    heightLength: 5cm,
     linebreak(),
     // grid(
     //   gutter: 0.61cm,
@@ -99,8 +107,8 @@
   linebreak(),
   経歴(
     mode: "資格",
-    columns: 7,
-    hegithLength: 6.6cm,
+    columns: qualification_columns,
+    heightLength: qualification_height,
     grid(
       gutter: 0.61cm,
       資格(
