@@ -1,5 +1,5 @@
 [package]
-name = "ja-resume"
+name = "cv-ja"
 version = "0.1.0"
 entrypoint = "lib.typ"
 authors = ["Nikudanngo"]

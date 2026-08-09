@@ -1,11 +1,9 @@
-// このテンプレートは日本語フォント（Noto Serif JP / Noto Sans JP など）を同梱していません。
-// コンパイル前に下記のいずれかを行ってください。
-//   1. Noto Serif JP をシステムにインストールする
-//   2. フォントファイルをダウンロードし --font-path で指定してコンパイルする
-//      例) typst compile --font-path <フォントを置いたフォルダ> main.typ
-// https://fonts.google.com/noto/specimen/Noto+Serif+JP からダウンロードできます。
+// このパッケージはフォントを指定しません。システムに日本語フォントが入っていればそのまま使われます。
+// 表示が崩れる場合は Noto Serif JP などのインストールを推奨します。
+// 特定のフォントを使う場合は、下の #show の前に #set text(font: "フォント名") を書いてください。
+// https://fonts.google.com/noto/specimen/Noto+Serif+JP
 
-#import "@preview/ja-resume:0.1.0": 履歴書
+#import "@preview/cv-ja:0.1.0": 履歴書
 
 #show: 履歴書.with(
   性読み: "りれきしょ",

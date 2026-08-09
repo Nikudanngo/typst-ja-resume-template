@@ -1,70 +1,98 @@
-# Typst履歴書テンプレート (ja-resume)
-![PDF](https://img.shields.io/badge/Resume-PDF-blue)
+# typst-ja-resume-template
 
-## これは何？
-[Typst](https://typst.app/)で履歴書のテンプレートを作成しました。
-履歴書は[こちら](/main.pdf)をご覧ください。
-自由に改変、利用してもいいです。
-何かの規約とかに則って作っているわけではないので、おかしな点があればご指摘ください！
+日本で一般的に使われている形式（市販の履歴書用紙に近いレイアウト）の履歴書を作成する[Typst](https://typst.app/)テンプレートです。
 
-[Typst Universe](https://typst.app/universe/package/ja-resume) にパッケージとして公開しているので、`typst init` から使うこともできます。
+このリポジトリの内容は [Typst Universe](https://typst.app/universe/package/cv-ja) 向けパッケージ `cv-ja` としても用意しています（`@preview/cv-ja:0.1.0`）。パッケージ経由でも、このリポジトリを直接 clone しても利用できます。
 
-## 使い方（パッケージとして利用する）
+![サンプル](thumbnail.png)
 
-```bash
-typst init @preview/ja-resume:0.1.0 my-resume
+サンプル PDF: [main.pdf](main.pdf)
+
+## インストール・使い方
+
+新規プロジェクトをテンプレートから作成します。
+
+```sh
+typst init @preview/cv-ja:0.1.0 my-resume
 ```
 
-生成された `my-resume/main.typ` の氏名・住所・学歴・職歴などを編集してコンパイルします。日本語フォントは同梱していないため、`Noto Serif JP` をインストールするか `--font-path` でフォントの場所を指定してください（後述）。
-
-```bash
-typst compile --font-path <フォントを置いたフォルダ> my-resume/main.typ
-```
-
-`#import` で関数だけ使うこともできます。
+または、既存プロジェクトから `履歴書` 関数を直接インポートし、`#show` ルールでドキュメントに適用することもできます。
 
 ```typ
-#import "@preview/ja-resume:0.1.0": 履歴書
+#import "@preview/cv-ja:0.1.0": 履歴書
 
 #show: 履歴書.with(
+  性読み: "りれきしょ",
+  名読み: "たろう",
   性: "履歴書",
   名: "太郎",
+  生年月日: "平成xx年xx月xx日",
+  年齢: 99,
+  // 写真: "photo.png", // 証明写真を貼る場合はパスを指定する
+  現住所: (
+    ふりがな: "とうきょうとすみだくおしあげ",
+    住所: "東京都墨田区押上１丁目１−２",
+    郵便番号: "131-0045",
+    電話: "123-4567-8901",
+    email: "sample@example.com",
+  ),
+  連絡先: (
+    ふりがな: "",
+    住所: "",
+    郵便番号: "",
+    電話: "",
+    email: "",
+  ),
   学歴: (
     (年: "平成30", 月: "4", 内容: "〇〇大学 入学"),
   ),
   職歴: (
     (年: "令和6", 月: "4", 内容: "株式会社〇〇 入社"),
   ),
-  // ...
+  資格: (
+    (年: "平成1", 月: "12", 内容: "普通自動車免許 取得"),
+  ),
+  志望動機: [私がこの職に応募する理由は、],
+  本人希望: [],
+  // false にすると右下の "Made with Typst" を非表示にする
+  クレジット: true,
 )
 ```
 
-`学歴` / `職歴` / `資格` は `(年, 月, 内容)` の配列で書きます。見出し行・空行・「以上」、1枚目/2枚目への分割は `lib.typ` 側が行います。行数の上限は [main.typ](main.typ) のコメントを参照してください。
+`学歴` / `職歴` / `資格` は `(年, 月, 内容)` を持つ辞書の配列で指定します。見出し行・区切りの空行・「以上」の挿入、1枚目/2枚目への分割は自動で行われます。
 
-## 使い方（このリポジトリを直接cloneする場合）
+- `学歴` と `職歴` は合わせて最大19行（1枚目14行 + 2枚目5行。見出し行・空行・「以上」も1行ずつ消費します）
+- `資格` は最大7行
 
-このリポジトリには開発・デモ用に日本語フォント（`fonts/`）と証明写真のサンプル（`image/`）を同梱しています。
+超過した分は枠外にはみ出して表示されます。
 
-1. `main.typ` を編集する（氏名・住所・学歴・職歴など）
-2. 同梱フォントを指定してコンパイルする（`--font-path` が必要です）
+## このリポジトリを直接使う場合
 
-```bash
+開発・デモ用に日本語フォント（`fonts/`）と証明写真のサンプル（`image/`）を同梱しています。`main.typ` を編集して、同梱フォントを指定してコンパイルしてください。
+
+```sh
 typst compile --font-path fonts main.typ
 ```
 
+同梱の Noto Serif JP を明示的に使う場合は、`#show: 履歴書.with(...)` の前に次を追加します。
+
+```typ
+#set text(font: "Noto Serif JP")
+```
+
+`fonts/` に同梱しているフォントは [SIL Open Font License 1.1](https://scripts.sil.org/OFL) です（ライセンス全文は `fonts/OFL-*.txt`）。パッケージ本体（コード）のライセンス（MIT）とは別物です。
+
 ## 日本語フォントについて
 
-このパッケージ自体には日本語フォントを含めていません（パッケージサイズを抑えるため）。以下のいずれかで用意してください。
+パッケージ（`cv-ja`）自体はフォントを指定しないため、システムに入っている日本語フォントがそのまま使われます。表示が崩れる場合は [Noto Serif JP](https://fonts.google.com/noto/specimen/Noto+Serif+JP) などのインストールをお勧めします。
 
-- [Noto Serif JP](https://fonts.google.com/noto/specimen/Noto+Serif+JP) / [Noto Sans JP](https://fonts.google.com/noto/specimen/Noto+Sans+JP) をダウンロードし、`--font-path` でフォルダを指定する
-- システムに日本語フォントをインストール済みなら、`lib.typ` の `set text(font: (...))` を使いたいフォント名に書き換える
+特定のフォントを使いたい場合は、`#show: 履歴書.with(...)` の前に `#set text(font: "好きなフォント名")` を書き、必要なら `--font-path` でフォントファイルの場所を指定してください。
 
-このリポジトリの `fonts/` に同梱しているフォントは [SIL Open Font License 1.1](https://scripts.sil.org/OFL) です（ライセンス全文は `fonts/OFL-*.txt`）。本パッケージ本体（コード）のライセンス（MIT）とは別物です。
-
-`--font-path` を付けずにコンパイルすると `unknown font family: noto serif jp` になり、日本語フォントが使われません。
+```sh
+typst compile --font-path <フォントを置いたフォルダ> main.typ
+```
 
 ## 参考にした書式
 
-[rireki-style](https://github.com/shigio/rireki-style)
-
-[doda履歴書テンプレート](https://doda.jp/guide/rireki/template/)
+- [rireki-style](https://github.com/shigio/rireki-style)
+- [doda履歴書テンプレート](https://doda.jp/guide/rireki/template/)
