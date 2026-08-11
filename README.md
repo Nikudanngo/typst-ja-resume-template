@@ -1,7 +1,9 @@
 # Typst履歴書テンプレート
+
 ![PDF](https://img.shields.io/badge/Resume-PDF-blue)
 
 ## これは何？
+
 [Typst](https://typst.app/)で履歴書のテンプレートを作成しました。
 履歴書は[こちら](/main.pdf)をご覧ください。
 自由に改変、利用してもいいです。
@@ -22,7 +24,7 @@ typst compile --font-path fonts main.typ
 #import "template.typ": 履歴書
 
 #show: 履歴書.with(
-  性: "履歴書",
+  姓: "履歴書",
   名: "太郎",
   学歴: (
     (年: "平成30", 月: "4", 内容: "〇〇大学 入学"),
